@@ -1,40 +1,76 @@
 <div class="note" id="note_element-{{ note.pk }}">
 
-    <span class="note_date">{{ note.date_public| date:"d-m-Y H:i" }}</span> <br/>
-    -------------------------
-    <span class="delete_element">[delete]</span> |
-    <span>[edit]</span>
 
-    <div class="note_text">
-        {{ note.text }}
-    </div>
-    <div class="note_img">
-        {% for image in note.get_images %}
-            <img src="{{ image.file.url }}" height="200" width="300"/>
-        {% endfor %}
-    </div>
-    <div class="note_video">
-        {% for video in note.get_video %}
-            <video controls="controls">
-                <source src="{{ video.file.url }}">
-            </video>
-        {% endfor %}
-    </div>
+    <div class="note-header block row align-items-center">
+        <!-- User info (left) -->
+        <div class="note-userinfo col-4 p-0">
+            <a href="#">
+                <!-- test -->
+                {% if user.userinfo.big_photo %}
+                    <img src="{{ user.userinfo.big_photo.url }}" class="img-fluid">
+                {% else %}
+                    {% load staticfiles %}
+                    <img src="{% static 'images/DefaultAvatar.png' %}" class="img-fluid">
+                {% endif %}
+                <span class="name mx-2"><strong>{{ user.first_name }} {{ user.last_name }}</strong></span>
+            </a>
+        </div>
 
-    <div class="note_audio">
-        {% for audio in note.get_audio %}
-            <audio controls="controls">
-                <source src="{{ audio.file.url }}">
-            </audio>
-        {% endfor %}
-    </div>
+        <!-- Post locate (right) -->
+        <div class="note-locate col-8">
+            <button type="button" class="delete_element btn btn-danger ml-2"><i class="fas fa-trash-alt"></i></button>
+            <button type="button" class="btn btn-warning ml-2"><i class="fas fa-edit"></i></button>
+            <button type="button" class="btn btn-primary ml-2"><i class="fas fa-map-marker-alt"></i> Locate</button>
+        </div>
 
-    <div class="note_files">
-        {% for file in note.get_files %}
-            <a download="file.file.url">Cкачать</a>
-        {% endfor %}
-    </div>
+    </div> <!-- note-header -->
 
 
-    -------------------------
-</div>
+    <div class="note-content block p-0">
+        <p class="note-text mx-1 mb-1">{{ note.text }}</p>
+
+        <div class="note-image">
+            {% for image in note.get_images %}
+                <img src="{{ image.file.url }}" class="note-image col-12 img-fluid p-0"/>
+            {% endfor %}
+        </div>
+
+        <div class="note-video">
+            {% for video in note.get_video %}
+                <div class="embed-responsive embed-responsive-16by9">
+                    <video controls="controls" class="embed-responsive-item">
+                        <source src="{{ video.file.url }}">
+                    </video>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="note-audio">
+            {% for audio in note.get_audio %}
+                <audio controls="controls" class="my-2">
+                    <source src="{{ audio.file.url }}">
+                </audio>
+            {% endfor %}
+        </div>
+
+        <div class="note-file">
+            {% for file in note.get_files %}
+                <a download="file.file.url" class="mx-2">{{ file.file.url }}</a>
+            {% endfor %}
+        </div>
+
+        <div class="note-footer row align-items-center">
+            <div class="note-time col-6 ">
+                <!-- test -->
+                <p class="note_date text-muted mx-2">
+                    <small>{{ note.date_public| date:"d-m-Y H:i" }}</small>
+                </p>
+            </div>
+            <div class="note-stats col-6">
+                <a href="#"><i class="far fa-heart"></i></a>
+                <a href="#"><i class="far fa-comment"></i></a>
+            </div>
+        </div>
+    </div> <!-- note-content -->
+
+</div> <!-- note -->

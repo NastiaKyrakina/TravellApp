@@ -1,0 +1,36 @@
+{% block content %}
+
+    <!-- Information block -->
+    <div class="information-block">
+        <h5 class="block block-header">Information</h5>
+        <div class="block block-footer">
+
+            {% if user.userinfo.status %}
+                <p><i class="fas fa-user-tag"></i> Status: {{ user.userinfo.get_status_display }} </p>
+            {% endif %}
+
+            {% if user.userinfo.country %}
+                <p>
+                    <!-- Такая каша для корректного вывода запятой -->
+                    <i class="fas fa-map-marker-alt"></i> {{ user.userinfo.country }}{% if user.userinfo.city %},
+                    {{ user.userinfo.city }}
+                {% endif %}
+                </p>
+            {% endif %}
+
+            {% if user.userinfo.birthday %}
+                <p><i class="fas fa-user"></i> Birthday: {{ user.userinfo.birthday }}</p>
+            {% endif %}
+
+            {% if user.userinfo.phone_num %}
+                <p><i class="fas fa-phone-square"></i> {{ user.userinfo.phone_num }}</p>
+            {% endif %}
+
+        </div>
+    </div>
+
+    {% if user.userinfo.info %}
+        {% include "UserProfile/includes/userStatus.html" %}
+    {% endif %}
+
+{% endblock %}

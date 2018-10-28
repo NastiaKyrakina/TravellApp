@@ -1,0 +1,69 @@
+/*** Theme (bright) ***/
+/* main background */
+body {
+    background-color: #c2cad6 !important;
+}
+
+/* block colors */
+.block {
+    background-color: #fff;
+}
+
+.block-header {
+    border-top: 2px solid #007bff;
+}
+
+.block-footer {
+    border-bottom: 2px solid #007bff;
+}
+
+/*** Config ***/
+/* block */
+.block {
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.information-block p {
+    margin-bottom: 3px;
+}
+
+.block-header {
+    border-radius: 7px 7px 0px 0px;
+    margin-bottom: 3px;
+}
+
+.block-footer {
+    border-radius: 0px 0px 7px 7px;
+}
+
+/* user info */
+
+.avatar img {
+    border-radius: 7px;
+    margin-bottom: 15px;
+}
+
+/* note */
+
+.note-header img {
+    width: 50px;
+    height: 50px;
+    border-radius: 10%;
+    float: left;
+}
+
+.note-header {
+    margin: 0 0 3px 0 !important;
+    height: 60px;
+}
+
+.note-locate button {
+    float: right;
+}
+
+.note-stats a {
+    margin-right: 15px;
+    float: right;
+    font-size: 26px;
+}

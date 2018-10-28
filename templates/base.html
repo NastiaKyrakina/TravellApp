@@ -9,7 +9,7 @@
 </head>
 <body class="main">
     {% block nav %}
-        <div class="nav">
+        <div class="nav position-fixed" style="z-index: 1">
 
         {% if user.is_authenticated %}
             <a href="{{ object.get_absolute_url }}">home page</a> |
@@ -26,9 +26,12 @@
 
     <h1>{% block head %}{% endblock %}</h1>
 
-    {% block content %}
+    <!-- !!! pt-4 Паддинг для нав-бара, он будет меняться в зависимости от размера нав-бара !!! -->
+    <div class="container pt-4">
+        {% block content %}
+        {% endblock %}
+    </div> <!-- container-fluid -->
 
-    {% endblock %}
 </body>
 
 {% block script %}

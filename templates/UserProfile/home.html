@@ -1,38 +1,51 @@
 {% extends "base.html" %}
 
 {% block title %}{{ user.username }} | Profile{% endblock %}
+
 {% block external %}
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static '/css/base.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/css/modal_window.css' %}">
+
+    <!-- Custom Styles | Объединить с base.css в последствии (?) -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <!-- Icons -->
+    <link rel="stylesheet" href="{% static 'node_modules/@fortawesome/fontawesome-free/css/all.css' %}">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}">
+    <script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+
 {% endblock %}
 
-{% block head %}{{ user.username }} | Profile{% endblock %}
-
 {% block content %}
-    <div class="inf">
+    <div class="row">
+        <div class="left-column col-sm-12 col-md-3">
 
-    <h2> Name: {{ user.username }} </h2>
-        {% if user.userinfo %}
-        <img src="{{ user.userinfo.big_photo.url}}" height="200" width="300"/>
-        <p>Status: {{ status}}</p>
-        <p>Country: {{ user.userinfo.country }}</p>
-        {% if user.userinfo.city %}
-            <p>City: {{ user.userinfo.city }}</p>
-        {% endif %}
-         {% if user.userinfo.phone_num %}
-            <p>Phone: {{ user.userinfo.phone_num }}</p>
-        {% endif %}
-        {% endif %}
-    </div>
+            <!-- Name and avatar block -->
+            {% include "UserProfile/includes/userNameAvatar.html" %}
 
-    <div class="user-posts">
-        {% include "UserProfile/notes_list.html" %}
-    </div>
+            {% if user.userinfo %}
+                <!-- Information block -->
+                {% include "UserProfile/includes/userInfo.html" %}
+            {% endif %}
 
-    <span id="load_href_1">Load prevision notes</span>
+        </div> <!-- left-column -->
+        <div class="main-column col-sm-12 col-md-7">
 
-    {% include 'modal_delete.html' %}
+            <div class="user-posts">
+                {% include "UserProfile/notes_list.html" %}
+            </div>
+
+            <div class="block block-footer d-flex justify-content-center">
+                <button type="button" class="load_href_1 btn btn-primary">Load prevision notes</button>
+            </div>
+
+            <span id="load_href_1">Load prevision notes</span>
+
+            {% include 'modal_delete.html' %}
+
+        </div> <!-- main-column -->
+    </div> <!-- row -->
 {% endblock %}
 
 {% block script %}
