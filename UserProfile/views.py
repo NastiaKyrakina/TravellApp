@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, Http404, JsonResponse
+from django.http import HttpResponseRedirect, Http404, JsonResponse, QueryDict, HttpRequest
 from django.template.loader import render_to_string
 
 from UserProfile.forms import *
@@ -77,7 +77,7 @@ def note_page(request, note_id):
 
 @login_required
 def note_create_page(request):
-    user = request.user
+    user = UserExt.objects.get(pk=request.user.pk)
     errors_file_type = []
 
     if request.method == 'POST':
@@ -104,6 +104,7 @@ def note_create_page(request):
                   'UserProfile/create_note.html',
                   {'form_note': form_note,
                    'form_attach': form_attach,
+                   'is_creating': True,
                    'errors_type': errors_file_type,
                    })
 
@@ -114,19 +115,36 @@ def note_edit_page(request, note_id):
     if request.user != note.user:
         return Http404
 
-    form_note = NoteForm(instance=note)
+    if request.method == 'POST':
+        form_note = NoteForm(request.POST)
+        if form_note.is_valid():
+            note.text = form_note.cleaned_data['text']
+            note.save()
+            if request.is_ajax():
+                return JsonResponse({'text': note.text})
+            return HttpResponseRedirect('/user/%s/' % request.user.pk)
+    else:
+        form_note = NoteForm(instance=note)
 
-    return render(request,
-                  'UserProfile/edit_note.html',
-                  {'form_note': form_note,
-                   'note': note,
-                   })
+    data = {'form_note': form_note,
+            'note': note,
+            }
+    if request.is_ajax():
+        template = 'UserProfile/create_edit_note_block.html'
+    else:
+        template = 'UserProfile/edit_note.html'
+    return render(request, template, data)
 
 
-def note_delete(request, note_id):
-    note = get_object_or_404(Note, pk=note_id)
-    if request.user == note.user:
-        note.deleted = datetime.now()
-        note.save()
+def delete_note(request):
+    if request.method == 'DELETE':
+        return JsonResponse({"a": "this isn't happening"})
+        note = Note.objects.get(pk=int(QueryDict(request.body).get('notepk')))
+        if request.user == note.user:
+            note.deleted = datetime.now()
+            note.save()
+            response_data = {}
+            response_data['msg'] = 'Post was deleted.'
+            return JsonResponse(response_data)
 
-    return HttpResponseRedirect('/user/%s/' % note.user_id)
+    return JsonResponse({"nothing to see": "this isn't happening"})

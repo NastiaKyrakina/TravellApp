@@ -12,7 +12,7 @@
         <div class="nav position-fixed" style="z-index: 1">
 
         {% if user.is_authenticated %}
-            <a href="{{ object.get_absolute_url }}">home page</a> |
+            <a href="/user/{{ user.pk }}/">home page</a> |
             <a href="/reg/logout/">logout</a> |
             <a href="/reg/info/">info</a> |
             <a href="/user/note/create/">new note</a> |

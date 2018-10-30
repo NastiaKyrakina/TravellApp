@@ -1,22 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}{{ user.username }} | Create post{% endblock %}
+{% block title %}{{ user.username }} | Post{% endblock %}
 {% block external %}
 
 {% endblock %}
 
-{% block head %}{{ user.username }} | Create post{% endblock %}
+{% block head %}{{ user.username }} | Post{% endblock %}
 
 {% block content %}
 
-    <form action="" enctype="multipart/form-data" method="post">
-        {% csrf_token %}
-        {% for error in errors_type %}
-            {{ error }} <br/>
-        {% endfor %}
-        {{ form_note.as_p }}
-        {{ form_attach.as_p }}
-        <input type="submit" value="Create"/>
-    </form>
+    {% include 'UserProfile/create_edit_note_block.html' %}
 
 {% endblock %}

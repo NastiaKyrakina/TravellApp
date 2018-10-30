@@ -58,14 +58,14 @@ class UserInfo(models.Model):
 
 class NoteManager(models.Manager):
 
-    def get_query_set(self):
-        return super(NoteManager, self).get_query_set().filter(deleted__isnull=True)
+    def get_queryset(self):
+        return super(NoteManager, self).get_queryset().filter(deleted__isnull=True)
 
 
 class NoteDeleteManager(models.Manager):
 
-    def get_query_set(self):
-        return super(NoteDeleteManager, self).get_query_set().filter(deleted__isnull=False).order_by('-deleted')
+    def get_queryset(self):
+        return super(NoteDeleteManager, self).get_queryset().filter(deleted__isnull=False).order_by('-deleted')
 
 
 class Note(models.Model):
@@ -76,7 +76,7 @@ class Note(models.Model):
 
     deleted = models.DateField(null=True, db_index=True)
 
-    note_objects = NoteManager()
+    # note_objects = NoteManager()
     objects = NoteManager()
     note_delete_objects = NoteDeleteManager()
 
