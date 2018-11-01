@@ -1,5 +1,5 @@
 <div class='note-edit-create'>
-    <form class='note-form' action="" enctype="multipart/form-data" method="post">
+    <form class='note-form' enctype="multipart/form-data" method="post">
         {% csrf_token %}
         {% for error in errors_type %}
             {{ error }} <br/>
@@ -11,7 +11,7 @@
             <div class="fieldWrapper">
                 {{ form_note.text.errors }}
                 <label for="{{ form_note.text.id_for_label }}">Text:</label>
-                <div class="note-text-data">
+                <div class="note-text-data full">
                     {{ form_note.text }}
                 </div>
             </div>

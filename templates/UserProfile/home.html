@@ -4,9 +4,12 @@
 
 {% block external %}
     {% load staticfiles %}
+    <script src="{% static '/js/jquery_3_3_1.min.js' %}"></script>
+
     <link rel="stylesheet" type="text/css" href="{% static '/css/base.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/css/modal_window.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/css/css_for_note.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/form.css' %}">
 
     <!-- Custom Styles | Объединить с base.css в последствии (?) -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
@@ -51,10 +54,8 @@
 {% block script %}
 
     {% load staticfiles %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js"
-            integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i"
-            crossorigin="anonymous"></script>
-    <script src="{% static '/js/jquery_3_3_1.min.js' %}"></script>
+
+    <script src="{% static '/js/form.js' %}"></script>
     <script src="{% static '/js/js.cookie.js' %}"></script>
     <script src="{% static '/js/ajax_csrf.js' %}"></script>
     <script src="{% static '/js/ajax_get_notes.js' %}"></script>

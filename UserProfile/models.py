@@ -20,6 +20,13 @@ class UserExt(User):
         return reverse('home', args=[str(self.id)])
 
 
+class Country(models.Model):
+    name = models.CharField(max_length=30)
+    phone_code = models.CharField(max_length=4)
+
+    def __str__(self):
+        return self.name
+
 class UserInfo(models.Model):
 
     TRAVEL = 'TR'
@@ -43,7 +50,7 @@ class UserInfo(models.Model):
 
     phone_num = models.CharField(max_length=12,
                                  blank=True)
-    country = models.CharField(max_length=30)
+    country = models.ForeignKey(Country, on_delete='Cascade', null=True)
     city = models.CharField(max_length=30,
                             blank=True)
     info = models.TextField(max_length=256,

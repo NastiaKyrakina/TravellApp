@@ -121,8 +121,13 @@ def note_edit_page(request, note_id):
             note.text = form_note.cleaned_data['text']
             note.save()
             if request.is_ajax():
-                return JsonResponse({'text': note.text})
+                return JsonResponse({'text': note.text,
+                                     'status': 'success'})
             return HttpResponseRedirect('/user/%s/' % request.user.pk)
+        else:
+            if request.is_ajax():
+                return JsonResponse({'text': note.text,
+                                     'status': 'fail'})
     else:
         form_note = NoteForm(instance=note)
 

@@ -7,3 +7,4 @@ from . import models
 admin.site.register(models.UserInfo)
 admin.site.register(models.Note)
 admin.site.register(models.Attachment)
+admin.site.register(models.Country)

@@ -3,42 +3,31 @@ $(document).ready(function () {
     $(".note").on('click', 'button[id^=edit-element-]',
         function () {
             var post_primary_key = $(this).attr('id').split('-')[2];
-            $('#note_element-' + post_primary_key + ' .note-text').load('/user/note/edit/' + post_primary_key)
+            $('#note_element-' + post_primary_key + ' .note-text').load('/user/note/edit/' + post_primary_key,
+                function () {
+                    $('#note_element-' + post_primary_key + ' .note-form').attr('id', 'edit-' + post_primary_key);
+                }
+            );
+
+        });
+
+    $(document).on('submit', '.note-form',
+        function SendFormAjax() {
+            var post_primary_key = $(this).attr('id').split('-')[1];
+            $.ajax({
+                type: $(this).attr('method'),
+                url: '/user/note/edit/' + post_primary_key + '/',
+                data: $(this).serialize(),
+                context: this,
+                success: function (data) {
+                    if (data['status'] !== 'success') {
+                        alert('The note didn`t save');
+                    }
+                    $('#note_element-' + post_primary_key + ' .note-text').html(data['text'].toString());
+                }
+            });
             return false;
-
         });
-
-    $('note-form').submit(
-        function () {
-
-            $('this').AjaxForm()
-
-            console.log("post successful");
-
-            return false;
-        });
-
-
-    function edit_post_send() {
-        text = $('note-text-data').first().val();
-        $.ajax({
-            url: "/user/note/edit/" + post_primary_key, // the endpoint
-            type: "POST", // http method
-            data: {
-                csrfmiddlewaretoken: Cookies.get('csrftoken'),
-                text_note: text
-            }, // data sent with the delete request
-            success: function (json) {
-                console.log("post successful");
-            },
-
-            error: function (xhr, errmsg, err) {
-                // Show an error
-                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
-            }
-        });
-
-    }
 
 
     $(".note").on('click', 'button[id^=delete-element-]',

@@ -9,7 +9,7 @@ class NoteForm(forms.ModelForm):
         exclude = ['user', 'date_public', 'deleted']
 
         widgets = {
-            'text': forms.Textarea,
+            'text': forms.Textarea(attrs={'class': 'full'}),
         }
 
 
