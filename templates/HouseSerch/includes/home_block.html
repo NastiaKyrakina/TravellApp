@@ -1,0 +1,32 @@
+<div class="house" id="house_element-{{ house.pk }}">
+    ----------------------------------------------------
+</div> <!-- house-header -->
+
+{% if house.main_image %}
+    <div class="house-image">
+        <img src="{{ house.main_image }}" class="house-image" width="200" height="200"/>
+    </div>
+
+{% else %}
+    {% load staticfiles %}
+    <img src="{% static 'images/DefaultHouse.png' %}" class="house-image" width="200" height="200"/>
+
+{% endif %}
+
+
+<div class="house-content">
+    {% if house.activity %}
+        <div>Active</div>
+    {% else %}
+        <div>Frozen</div>
+    {% endif %}
+    <p class="house-title">{{ house.title }}</p>
+    <p>{{ house.country.name }}, {{ house.city }} </p>
+    <p>Rooms/sleeper place: {{ house.rooms }} / {{ house.sleeper }}</p>
+
+    <p>Price: {{ house.price }} $ / day</p>
+    <p>Owner: {{ house.owner.username }}</p>
+
+</div> <!-- house-content -->
+----------------------------------------------------
+</div> <!-- house -->

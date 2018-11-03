@@ -35,7 +35,10 @@
 
         </div> <!-- left-column -->
         <div class="main-column col-sm-12 col-md-7">
-
+            <div class="note-header block row align-items-center">
+                <button type="button" class="load-notes btn btn-primary">Notes</button>
+                <button type="button" class="load-house  btn btn-primary">Houses</button>
+            </div>
             <div class="user-posts">
                 {% include "UserProfile/notes_list.html" %}
             </div>
@@ -44,8 +47,6 @@
                 <button type="button" class="load_href_1 btn btn-primary">Load prevision notes</button>
             </div>
 
-
-            {% include 'modal_delete.html' %}
 
         </div> <!-- main-column -->
     </div> <!-- row -->
@@ -62,17 +63,5 @@
     <script src="{% static '/js/show_modal.js' %}"></script>
     <script src="{% static '/js/short_text.js' %}"></script>
 
-    <script>
-
-        $(document).ready(function () {
-            // Посилання з id="test" буде тригером події
-            $(".note_text").click(function () {
-
-            });
-
-        });
-
-
-    </script>
 
 {% endblock %}

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'UserProfile.apps.UserprofileConfig',
     'Authentication',
+    'HouseSearch',
     'Chat',
 ]
 

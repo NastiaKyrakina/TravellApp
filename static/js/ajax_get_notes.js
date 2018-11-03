@@ -49,8 +49,8 @@ $(document).ready(function () {
                 success: function (json) {
                     // hide the post
                     $('#note_element-' + post_primary_key).hide(); // hide the post on success
-                    console.log(json.toString());
-                    console.log("post deletion successful");
+                    console.log(json['msg'].toString());
+
                 },
 
                 error: function (xhr, errmsg, err) {

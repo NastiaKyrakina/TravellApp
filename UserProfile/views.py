@@ -142,8 +142,7 @@ def note_edit_page(request, note_id):
 
 
 def delete_note(request):
-    if request.method == 'DELETE':
-        return JsonResponse({"a": "this isn't happening"})
+    if request.method == 'POST':
         note = Note.objects.get(pk=int(QueryDict(request.body).get('notepk')))
         if request.user == note.user:
             note.deleted = datetime.now()
@@ -152,4 +151,4 @@ def delete_note(request):
             response_data['msg'] = 'Post was deleted.'
             return JsonResponse(response_data)
 
-    return JsonResponse({"nothing to see": "this isn't happening"})
+    return JsonResponse({"msg": "this isn't happening"})

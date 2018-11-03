@@ -1,13 +1,27 @@
 {% extends "base.html" %}
 
-{% block title %}Houses{% endblock %}
+{% block title %}User Information{% endblock %}
 
-{% block head %}Houses search{% endblock %}
+{% block head %}User Information{% endblock %}
+
+
 
 {% block content %}
-
     <form method="get" action="">
-
+        /*/
+        {{ form_search.as_p }}
+        <input type="submit" value="register"/>
     </form>
+
+    {% include 'HouseSerch/includes/houses_list.html' %}
+
+{% endblock %}
+
+
+
+{% block script %}
+
+    {% load staticfiles %}
+    <script type="text/javascript" src="{% static "js/load_image.js" %}"></script>
 
 {% endblock %}

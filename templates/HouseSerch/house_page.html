@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Note {{ note.id }}{% endblock %}
+{% block external %}
+    {% load staticfiles %}
+    <script src="{% static '/js/jquery_3_3_1.min.js' %}"></script>
+{% endblock %}
+{% block head %} {{ house.title }} {% endblock %}
+
+{% block content %}
+
+    <div class="house" id="house-element-{{ house.pk }}">
+        {% if is_owner %}
+            <form>
+                <button type="button"
+                        class="delete-element btn btn-danger ml-2" id="delete-element-{{ house.pk }}">
+                    [Delete]
+                </button>
+                <button type="button" formaction="/house/edit/{{ house.pk }}/"
+                        class="btn btn-warning ml-2" id="edit-element-{{ house.pk }}">
+                    [Edit]
+                </button>
+            </form>
+        {% endif %}
+
+        {% if house.activity %}
+            <div>Active</div>
+        {% else %}
+            <div>Frozen</div>
+        {% endif %}
+
+        <p> Published {{ house.date_public| date:"d-m-Y" }} </p>
+        <p>Price: {{ house.price }} $ / day</p>
+        <p>Owner: {{ house.owner.username }}</p>
+        -------------------------
+
+        <div class="house_img">
+            {% for image in house.get_images %}
+                <img src="{{ image.image.url }}" height="200" width="300"/>
+            {% endfor %}
+        </div>
+
+        <div>
+            <p>Type: {{ type }}</p>
+            <p>Address: {{ house.country.name }}, {{ house.city }}, {{ house.address }}</p>
+            <p>Rooms/sleeper place: {{ house.rooms }} / {{ house.sleeper }}</p>
+            <p>{{ house.about }}</p>
+
+        </div>
+        -------------------------
+    </div>
+
+
+{% endblock %}
+
+
+{% block script %}
+
+    {% load staticfiles %}
+    <script src="{% static '/js/js.cookie.js' %}"></script>
+    <script src="{% static '/js/ajax_csrf.js' %}"></script>
+    <script src="{% static '/js/house.js' %}"></script>
+
+
+{% endblock %}
