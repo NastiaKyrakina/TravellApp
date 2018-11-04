@@ -1,9 +1,8 @@
+{{ message }}
 {% if houses %}
 
     {% for house in houses %}
         {% include "HouseSerch/includes/home_block.html" %}
     {% endfor %}
 
-{% else %}
-    {{ message }}
 {% endif %}

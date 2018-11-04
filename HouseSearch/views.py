@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonResponse, QueryDict, HttpRequest
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from UserProfile.models import UserExt, Country
 from .models import House, HousePhoto, MAX_USER_HOUSES
@@ -8,17 +9,50 @@ from datetime import datetime
 from Lib import FileFormats
 
 
-def house_search_page(request):
-    houses = House.objects.all()
+def user_houses(request):
     if 'user' in request.GET:
         user = get_object_or_404(UserExt, id=request.GET['user'])
         houses = House.objects.filter(owner=user)
-    form_search = SearchHousesForm()
-    houses = House.objects.multi_search(request.GET.dict())
+
+
+def house_search_page(request):
+
+    houses = House.objects.all()
+
+    form_search = SearchHousesForm(request.GET)
+
+    if form_search.is_valid():
+        dict = form_search.get_only_full()
+        if len(dict):
+            houses = House.objects.multi_search(houses, dict)
+
+    if houses:
+        message = "Result: " + str(houses.count())
+
+        paginator = Paginator(houses, 2)
+        page = int(request.GET.get('page'))
+
+        try:
+            houses_page = paginator.page(page)
+        except PageNotAnInteger:
+            houses_page = paginator.page(1)
+        except EmptyPage:
+            houses_page = paginator.page(paginator.num_pages)
+
+        return render(request, 'HouseSerch/house_search.html',
+                      {'houses': houses_page,
+                       'page': houses_page,
+                       'form_search': form_search,
+                       'message': message,
+                       })
+    else:
+        message = "No result :("
+
 
     return render(request, 'HouseSerch/house_search.html',
                   {'houses': houses,
-                   'form_search': form_search})
+                   'form_search': form_search,
+                   'message': message, })
 
 
 def house_page(request, house_id):
@@ -114,16 +148,4 @@ def house_delete(request):
     return JsonResponse({"msg": "this isn't happening"})
 
 
-def ajax_load_countries(request):
-    if 'qcountry' in request.GET:
-        qcountry = request.GET['qcountry']
-        countries = Country.objects.filter(name__istartswith=qcountry)
-        dictionaries = []
 
-        for country in countries:
-            country_json = {}
-            country_json['label'] = country.name
-            dictionaries.append(country_json)
-
-        return JsonResponse({'dictionaries': dictionaries})
-    return HttpResponse('false')

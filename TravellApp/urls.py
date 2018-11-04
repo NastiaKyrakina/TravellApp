@@ -20,12 +20,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+from Authentication.views import ajax_load_countries
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('UserProfile.urls')),
     path('reg/', include('Authentication.urls')),
     path('chat/', include('Chat.urls')),
     path('house/', include('HouseSearch.urls')),
+
+    path('load_countries/', ajax_load_countries, name='load_countries'),
   ]
 
 

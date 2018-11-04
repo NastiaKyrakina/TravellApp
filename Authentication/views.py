@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 
 from Authentication.forms import *
-from UserProfile.models import UserExt
+from UserProfile.models import UserExt, Country
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -80,3 +80,19 @@ def information_page(request):
         else:
             form = InformationForm()
     return render(request, 'Registration/user_info_page.html', {'form': form})
+
+
+def ajax_load_countries(request):
+    if 'qc' in request.GET:
+        qc = request.GET['qc']
+        countries = Country.objects.all()
+        dictionaries = []
+        for country in countries:
+            country_json = {}
+            country_json['name'] = country.name
+            if qc == '2':
+                country_json['phone_code'] = country.phone_code
+            dictionaries.append(country_json)
+
+        return JsonResponse({'dict': dictionaries})
+    return HttpResponse('false')

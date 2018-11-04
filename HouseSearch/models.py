@@ -15,26 +15,32 @@ class HouseManager(models.Manager):
     def get_queryset(self):
         return super(HouseManager, self).get_queryset().filter(deleted__isnull=True)
 
-    def multi_search(self, kwargs):
+    def multi_search(self, houses, kwargs):
 
-        houses = self.all()
         if 'min_price' in kwargs:
             houses = houses.filter(price__gt=kwargs['min_price'])
         if 'max_price' in kwargs:
-            houses = houses.filter(price__lt=kwargs['min_price'])
+            houses = houses.filter(price__lt=kwargs['max_price'])
         if 'country' in kwargs:
-            houses = houses.filter(country=kwargs['country'])
+            country_id = Country.objects.get(name=kwargs['country']);
+            houses = houses.filter(country=country_id)
+        if 'type' in kwargs:
+            print(kwargs['type'])
+            for type in House.HOUSE_TYPE:
+                if not (type[0] in kwargs['type']):
+                    houses = houses.exclude(type=type[0])
+
         if 'city' in kwargs:
-            houses = houses.filter(country=kwargs['city'])
+            houses = houses.filter(city=kwargs['city'])
         if 'rooms' in kwargs:
-            houses = houses.filter(rooms=kwargs['min_rooms'])
+            houses = houses.filter(rooms=kwargs['rooms'])
         if 'sleeper' in kwargs:
-            houses = houses.filter(rooms=kwargs['sleeper'])
+            houses = houses.filter(sleeper=kwargs['sleeper'])
         if 'public' in kwargs:
             houses = houses.filter(date_public__gt=kwargs['public'])
-        if 'activ' in kwargs:
-            if kwargs['activ']:
-                houses = houses.filter(activ=True)
+        if 'active' in kwargs:
+            if kwargs['active']:
+                houses = houses.filter(activity=True)
 
         return houses
 
@@ -46,7 +52,9 @@ class HouseDeleteManager(models.Manager):
 
 
 MAX_USER_HOUSES = 10
-
+MAX_PRICE = 999.99
+MAX_ROOMS = 50
+MAX_SLEEPER = 100
 
 class House(models.Model):
 

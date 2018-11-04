@@ -1,0 +1,67 @@
+<form method="get" action="">
+
+    {{ form_search.non_field_errors }}
+    <div class="SearchForm">
+
+        <div class="fieldWrapper">
+            {{ form_search.country.errors }}
+            {{ form_search.country }}
+        </div>
+
+        <datalist id="countries"></datalist>
+
+        <div class="fieldWrapper">
+            {{ form_search.city.errors }}
+            {{ form_search.city }}
+        </div>
+
+        <div class="fieldWrapper">
+            {{ form_search.type.errors }}
+            {% for check in form_search.type %}
+                <label for="{{ check.id_for_label }}">
+                    {{ check.choice_label }}
+                    <span class="radio">{{ check.tag }}</span>
+                </label>
+            {% endfor %}
+        </div>
+
+        <div class="fieldWrapper">
+            {{ form_search.min_price.errors }}
+            {{ form_search.max_price.errors }}
+            <label for="{{ form_search.min_price.id_for_label }}">From:</label>
+            {{ form_search.min_price }}
+            <label for="{{ form_search.max_price.id_for_label }}">To:</label>
+            {{ form_search.max_price }}
+        </div>
+
+        <div id="slider_min_max_price"></div>
+
+
+        <div class="fieldWrapper">
+            {{ form_search.rooms.errors }}
+            <label for="{{ form_search.rooms.id_for_label }}">Rooms:</label>
+            {{ form_search.rooms }}
+        </div>
+
+        <div class="fieldWrapper">
+            {{ form_search.sleeper.errors }}
+            <label for="{{ form_search.sleeper.id_for_label }}">Sleeper:</label>
+            {{ form_search.sleeper }}
+        </div>
+
+        <div class="fieldWrapper">
+            {{ form_search.active.errors }}
+            <label for="{{ form_search.active.id_for_label }}">Only active:</label>
+            {{ form_search.active }}
+        </div>
+
+        <div class="fieldWrapper">
+            {{ form_search.public.errors }}
+            <label for="{{ form_search.public.id_for_label }}">After date:</label>
+            {{ form_search.public }}
+        </div>
+
+    </div>
+
+    <input type="submit" value="Search"/>
+</form>

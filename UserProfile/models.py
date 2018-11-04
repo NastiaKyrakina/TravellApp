@@ -117,11 +117,6 @@ class Attachment(models.Model):
 
 
 def save_attach(files_dict, note):
-    files = files_dict.getlist('images', None)
-    for file in files:
-        new_attachment = Attachment(note=note, file=file, type='IM')
-        new_attachment.save()
-
     files = files_dict.getlist('video', None)
     for file in files:
         new_attachment = Attachment(note=note, file=file, type='VD')
